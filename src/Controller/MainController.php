@@ -13,11 +13,21 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-    //     return $this->json([
-    //         'message' => 'Welcome to your new controller!'
-    //     ]);
-    return new Response ();
+        // return $this->json([
+        //     'message' => 'Welcome to your new controller!'
+        // ]);
+        return new Response('<h1>Yo</h1>');
     }
-}
 
-//test 
+    /**
+     * @Route("/custom", name="custom")
+     */
+    
+     public function custom() 
+     {
+
+        return new Response( 'This is custom page' );
+     }
+
+
+}
