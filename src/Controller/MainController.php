@@ -17,7 +17,10 @@ class MainController extends AbstractController
         // return $this->json([
         //     'message' => 'Welcome to your new controller!'
         // ]);
-        return new Response('<h1>Yo</h1>');
+        //   OR
+        //return new Response('<h1>Yo</h1>');
+        //  OR USE TEMPLATE
+        return $this->render( 'home/index.html.twig' );
     }
 
 
@@ -31,9 +34,14 @@ class MainController extends AbstractController
      public function custom( Request $response ) 
      {
         //dump( $response->get('name') ); //similar to var_dump - dump() is symfony function that formats stuff nicely
-        $name = $response->get('name');
-        return new Response( '<h1>Welcome '.$name. '!</h1>' );
+        $nameFromUrl = $response->get('name');
+
+        //return new Response( '<h1>Welcome '.$name. '!</h1>' );
+        //OR USE TWIG
+        return $this->render('home/custom.html.twig', [
+            'name'  => $nameFromUrl
+            ]);
      }
 
-
+     
 }
