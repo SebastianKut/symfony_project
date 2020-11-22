@@ -31,10 +31,10 @@ class MainController extends AbstractController
      * @return Response
      */
     
-     public function custom( Request $response ) 
+     public function custom( Request $request ) 
      {
         //dump( $response->get('name') ); //similar to var_dump - dump() is symfony function that formats stuff nicely
-        $nameFromUrl = $response->get('name');
+        $nameFromUrl = $request->get('name');
 
         //return new Response( '<h1>Welcome '.$name. '!</h1>' );
         //OR USE TWIG
