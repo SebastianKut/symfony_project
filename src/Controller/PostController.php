@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\PostType;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,23 +43,48 @@ class PostController extends AbstractController
         //create instance of our Post.php class
         $post = new Post();
 
-        //set a title to be inserted to db
-        $post->setTitle('This is a new title');
+        // //set a title to be inserted to db
+        // $post->setTitle('This is a new title');
 
-        //get entity  manager from getDoctrine method inherited from AbstractControler class
-        $em = $this->getDoctrine()->getManager();
+        // //get entity  manager from getDoctrine method inherited from AbstractControler class
+        // $em = $this->getDoctrine()->getManager();
 
-        //SEND DATA TO DB USING PERSIST
-        $em->persist($post);
-        //IMPORTANT - after PERSIST use flush()
-        $em->flush();
+        // //SEND DATA TO DB USING PERSIST
+        // $em->persist($post);
+        // //IMPORTANT - after PERSIST use flush()
+        // $em->flush();
 
-        //add flash message
-        $this->addFlash('success', 'Post was created');
+        // //add flash message
+        // $this->addFlash('success', 'Post was created');
 
-        //then we can return new respponse OR redirect 
-        //return new Response('Post was created');
-        return $this->redirect($this->generateUrl('post.index'));
+        // //then we can return new respponse OR redirect 
+        // //return new Response('Post was created');
+        // return $this->redirect($this->generateUrl('post.index'));
+
+        //INSERT DATA USING FORM
+
+        //create form (pass form name class and entity)
+        $form = $this->createForm(PostType::class, $post);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+           $em = $this->getDoctrine()->getManager();
+           $em->persist($post);
+           $em->flush();
+
+           $this->addFlash('success', 'Post was created');
+           
+           return $this->redirect($this->generateUrl('post.index'));
+        }
+
+        //create the view from form so we can pass that to template
+        $formView = $form->createView();
+
+        return $this->render('post/create.html.twig', [
+            'form'  => $formView
+        ]);
 
     }
 
